@@ -13,6 +13,9 @@ import requests
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
+if not TOKEN or not CHAT_ID:
+    print("Missing environment variables!")
+    exit()
 # =====================
 # RSS Feeds
 # =====================
@@ -287,12 +290,14 @@ def check_feeds():
 # تشغيل دوري
 # =====================
 
-schedule.every(10).minutes.do(check_feeds)
+import threading
 
-# تشغيل أول مرة
-check_feeds()
+def run_bot():
+    while True:
+        check_feeds()
+        time.sleep(600)  # 10 دقائق
 
-# loop
+threading.Thread(target=run_bot).start()
+
 while True:
-    schedule.run_pending()
-    time.sleep(30)
+    time.sleep(1000)
