@@ -267,9 +267,13 @@ def check_feeds():
                   success = send_post(page_name, clean_text, entry.get("link"), image_url)
 
                   if success:
+
                     print("Sent:", page_name)
+
                     sent_posts.add(post_id)
+
                     save_posts()
+
                   time.sleep(2)
 
                 except Exception as send_error:
@@ -284,6 +288,7 @@ def check_feeds():
 # =====================
 
 schedule.every(10).minutes.do(check_feeds)
+
 # تشغيل أول مرة
 check_feeds()
 
